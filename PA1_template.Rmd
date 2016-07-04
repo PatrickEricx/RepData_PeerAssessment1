@@ -80,4 +80,25 @@ median(stepsPerDayImputated[,2])
 What is the impact of imputing missing data on the estimates of the total daily number of steps?  
 Total number of daily steps increases, I think.  
 
-## Are there differences in activity patterns between weekdays and weekends?
+## Are there differences in activity patterns between weekdays and weekends?  
+Use the dataset with the filled-in missing values for this part.  
+1.Create a new factor variable in the dataset with two levels – “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.  
+```{r echo=TRUE eval=TRUE}
+imputatedIntervals <- imputateddata
+imputatedIntervals$date <- as.Date(imputateddata$date)
+#create a vector of weekdays
+weekdaysList <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+#Use %in% and weekdaysList to create a logical vector
+#convert to factor and specify the labels
+imputatedIntervals$weekDay <- factor((weekdays(imputatedIntervals$date) %in% weekdaysList), 
+         levels=c(TRUE, FALSE), labels=c("weekday", "weekend") )
+```  
+2.Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). See the README file in the GitHub repository to see an example of what this plot should look like using simulated data.  
+```{r echo=TRUE eval=TRUE}
+fiveMinuteAverageImputatedWeekend <- aggregate(steps ~ interval, imputatedIntervals[imputatedIntervals$weekDay == "weekend", ], mean)
+fiveMinuteAverageImputatedWeekday <- aggregate(steps ~ interval, imputatedIntervals[imputatedIntervals$weekDay == "weekday", ], mean)
+par(mfrow=c(2,1))
+plot(fiveMinuteAverageImputatedWeekend$interval, fiveMinuteAverageImputatedWeekend$steps, type="l")
+plot(fiveMinuteAverageImputatedWeekday$interval, fiveMinuteAverageImputatedWeekday$steps, type="l")
+```
+
