@@ -9,10 +9,11 @@ output:
 ## Loading and preprocessing the data
 Show any code that is needed to
 1.Load the data (i.e. read.csv())
+```{r echo=TRUE}
 setwd("C:/coursera.datascience/04.repeatableresearch.week02")
 sourcefile <- "activity.csv"
 sourcedata <- read.csv(sourcefile)
-
+```
 
 ## What is mean total number of steps taken per day?
 
