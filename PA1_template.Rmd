@@ -53,7 +53,31 @@ fiveMinuteAverage[fiveMinuteAverage$steps == max(fiveMinuteAverage$steps),]
 This is again confirmed by the graph.  
 
 ## Imputing missing values
-
-
+1.Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)  
+```{r echo=TRUE eval=TRUE}
+sum(is.na(sourcedata$steps))
+sum(is.na(sourcedata$date))
+sum(is.na(sourcedata$interval))
+```  
+2.Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.  
+We fill the NA values with the mean of the corresponding 5-minute interval.
+3.Create a new dataset that is equal to the original dataset but with the missing data filled in.  
+[link](http://stackoverflow.com/questions/26336122/r-replacing-na-values-by-mean-of-hour-with-dplyr)    
+```{r echo=TRUE eval=TRUE}
+install.packages("dplyr")
+library(dplyr)
+ imputateddata <- sourcedata %>% 
+                  group_by(interval) %>% 
+                  mutate(steps = replace(steps, is.na(steps),mean(steps, na.rm=TRUE)))
+```  
+4.Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
+```{r echo=TRUE eval=TRUE}
+stepsPerDayImputated <- aggregate(steps ~ date, imputateddata, sum)
+hist(stepsPerDayImputated$steps, main="Distribution of imputated steps per day", xlab="Imputated Steps per day")
+mean(stepsPerDayImputated[,2])
+median(stepsPerDayImputated[,2])
+```
+What is the impact of imputing missing data on the estimates of the total daily number of steps?
+Total number of daily steps increases, I think.  
 
 ## Are there differences in activity patterns between weekdays and weekends?
