@@ -14,10 +14,21 @@ setwd("C:/coursera.datascience/04.repeatableresearch.week02")
 sourcefile <- "activity.csv"
 sourcedata <- read.csv(sourcefile)
 ```
+2. Process/transform the data (if necessary) into a format suitable for your analysis  
+Nothing special required.  
 
 ## What is mean total number of steps taken per day?
+For this part of the assignment, you can ignore the missing values in the dataset.  
+```{r echo=TRUE}
+completedata <- na.omit(sourcedata)
+```
 
-
+1. Calculate the total number of steps taken per day  
+```{r echo=TRUE eval=TRUE}
+workdata <- completedata[1:2]
+stepsPerDay <- aggregate(steps ~ date, workdata, sum)
+stepsPerDay
+```
 
 ## What is the average daily activity pattern?
 
