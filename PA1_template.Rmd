@@ -30,6 +30,18 @@ stepsPerDay <- aggregate(steps ~ date, workdata, sum)
 stepsPerDay
 ```
 
+2. Make a histogram of the total number of steps taken each day  
+```{r echo=TRUE eval=TRUE}
+hist(stepsPerDay$steps, main="Distribution of steps per day", xlab="Steps per day")
+```
+
+3.Calculate and report the mean and median of the total number of steps taken per day  
+```{r echo=TRUE eval=TRUE}
+mean(stepsPerDay[,2])
+median(stepsPerDay[,2])
+```
+Those values fall in the  highest block in the histogram. This confirms that our calculation makes sense.  
+
 ## What is the average daily activity pattern?
 
 
